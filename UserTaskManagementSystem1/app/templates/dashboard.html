@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Welcome, {{ username }}!</h1>
+
+    <h2>Your Tasks</h2>
+
+    {% if tasks %}
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Deadline</th>
+                <th>Status</th>
+            </tr>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.priority }}</td>
+                    <td>{{ task.deadline }}</td>
+                    <td>
+                        {% if task.is_completed %} ✅ Completed {% else %} ❌ Pending {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No tasks found. Add a new task below.</p>
+    {% endif %}
+
+    <h2>Add New Task</h2>
+    <form method="post" action="/tasks/">
+        <label>Title:</label>
+        <input type="text" name="title" required>
+
+        <label>Description:</label>
+        <input type="text" name="description" required>
+
+        <label>Priority:</label>
+        <select name="priority">
+            <option value="1">Low</option>
+            <option value="2">Medium</option>
+            <option value="3">High</option>
+        </select>
+
+        <label>Deadline:</label>
+        <input type="date" name="deadline">
+
+        <button type="submit">Add Task</button>
+    </form>
+
+    <a href="/logout">Logout</a>
+{% endblock %}
